@@ -1,7 +1,9 @@
-import {loggingInRecoil} from "@recoil/user";
+import {loggingInRecoil, userRecoil} from "@recoil/user";
 import LoadingScreen from "@Screen/LoadingScreen";
+import {useAuth} from "hook/auth";
 import {useRouter} from "next/router";
 import {useMemo} from "react";
+import {useRecoilValue, useSetRecoilState} from "recoil";
 
 const exclusions = ["/login", "/signup", "/forgotPassword", "/choosePassword", "/verifySuccess"];
 
@@ -12,8 +14,10 @@ const AuthArea = ({children, ...props}) => {
     [router.pathname],
   );
   const isLogging = useRecoilValue(loggingInRecoil);
-  console.log("...props", ...props);
-  // const user = useAuth(redirect);
+  const setUser = useSetRecoilState(userRecoil);
+
+  const user = useAuth(redirect);
+  if (user) setUser(user);
   if (isLogging || (redirect && !user)) return <LoadingScreen title="Authenticating..." />;
   else return children;
 };

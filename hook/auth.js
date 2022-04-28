@@ -17,10 +17,10 @@ export const useAuth = (redirect = false) => {
   useEffect(() => {
     try {
       if (!user) {
-        let storeUser = localStorage.getItem("user");
-        if (storeUser) {
+        let storeToken = localStorage.getItem("token");
+        if (storeToken) {
           setLoggingIn(true);
-          setUser(storeUser);
+          setUser(storeToken);
           setLoggingIn(false);
         } else if (redirect) {
           router.replace("/login");
