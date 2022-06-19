@@ -9,25 +9,22 @@ import {
   Typography,
 } from "@mui/material";
 import {useState} from "react";
-import styles from "./dashboard.module.scss";
+import styles from "../dashboard.module.scss";
+import InviteFriend from "./InviteFriend";
 const users = ["user1", "user2"];
 export default function FriendsList() {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
 
   return (
-    <DrawerContainer
-      open={open}
-      setOpen={setOpen}
-      onClose={() => setOpen(false)}
-      className={styles.friendsList}>
-      <Button variant="contained" fullWidth>
+    <div className={styles.friendsList}>
+      <Button variant="contained" fullWidth onClick={() => setOpen(true)}>
         Add Friends
       </Button>
       <Typography
         variant="subtitle2"
         align="center"
         color="textSecondary"
-        className="small-margin-top">
+        className="small-margin-top large-padding-right large-padding-left">
         Private Messages
       </Typography>
 
@@ -41,6 +38,8 @@ export default function FriendsList() {
           </ListItem>
         ))}
       </List>
-    </DrawerContainer>
+
+      <InviteFriend open={open} setOpen={setOpen} />
+    </div>
   );
 }

@@ -7,15 +7,10 @@ import styles from "./dashboard.module.scss";
 export default function Sidebar() {
   const [open, setOpen] = useState(true);
   return (
-    <DrawerContainer
-      open={open}
-      setOpen={setOpen}
-      onClose={() => setOpen(false)}
-      className={styles.sidebar}
-      width={100}>
-      <Button variant="contained">
+    <div className={styles.sidebar}>
+      <Button variant="contained" sx={{minWidth: "unset"}}>
         <HiUserGroup />
       </Button>
-    </DrawerContainer>
+    </div>
   );
 }

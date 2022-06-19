@@ -1,4 +1,4 @@
-import FriendsList from "@Components/Dashboard/FriendsList";
+import FriendsList from "@Components/Dashboard/FriendsSide/FriendsList";
 import Messenger from "@Components/Dashboard/Messenger";
 import Sidebar from "@Components/Dashboard/Sidebar";
 import Layout from "@Screen/Layout";

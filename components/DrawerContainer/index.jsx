@@ -3,7 +3,6 @@ import {Drawer} from "@mui/material";
 export default function DrawerContainer({width, children, className, open, setOpen, ...props}) {
   return (
     <Drawer
-      // variant="temporary permanent"
       variant="permanent"
       open={open}
       onClose={() => setOpen(false)}

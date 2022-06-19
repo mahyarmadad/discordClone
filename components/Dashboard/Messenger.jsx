@@ -1,10 +1,11 @@
 import {AppBar} from "@mui/material";
 import styles from "./dashboard.module.scss";
+import Navbar from "./Navbar";
 export default function Messenger() {
   return (
     <div className={`${styles.messenger}`}>
-      <AppBar></AppBar>
-      to chat
+      <Navbar />
+      <div className="medium-padding">Chat</div>
     </div>
   );
 }
