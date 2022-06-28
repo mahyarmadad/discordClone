@@ -11,14 +11,3 @@ export async function postData(url = "", data = {}) {
   if (response.status === 200) return response.json();
   else throw new Error(await response.text());
 }
-
-export function setUser(user) {
-  localStorage.setItem("username", user.username);
-  localStorage.setItem("token", user.token);
-  localStorage.setItem("email", user.email);
-}
-export const logOutUser = () => {
-  localStorage.removeItem("username");
-  localStorage.removeItem("token");
-  localStorage.removeItem("email");
-};

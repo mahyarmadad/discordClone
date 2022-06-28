@@ -19,7 +19,7 @@ export default function SignUp() {
   });
   const [showPass, setShowPass] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [user, setUserRecoil] = useRecoilState(userRecoil);
+  const [user, setUser] = useRecoilState(userRecoil);
 
   const router = useRouter();
 
@@ -38,10 +38,7 @@ export default function SignUp() {
         let sendUser = {...newUser};
         delete sendUser.confirmPassword;
         const data = await postData("http://localhost:5000/api/auth/register", sendUser);
-        if (data.user) {
-          setUser(data.user);
-          setUserRecoil(data.user);
-        }
+        if (data.user) setUser(data.user);
         router.push("/dashboard", null, {shallow: true});
         setLoading(false);
       } catch (error) {
@@ -49,7 +46,7 @@ export default function SignUp() {
         toast.error(error.message);
       }
     },
-    [newUser, router, setUserRecoil],
+    [newUser, router, setUser],
   );
 
   useEffect(() => {

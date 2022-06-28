@@ -1,5 +1,5 @@
 import {PassLink} from "@Components/utils";
-import {postData, setUser} from "@functions/user";
+import {postData} from "@functions/user";
 import {LoadingButton} from "@mui/lab";
 import {TextField, Typography} from "@mui/material";
 import {userRecoil} from "@recoil/user";
@@ -15,7 +15,7 @@ export default function Login() {
     password: "",
   });
   const [loading, setLoading] = useState(false);
-  const [user, setUserRecoil] = useRecoilState(userRecoil);
+  const [user, setUser] = useRecoilState(userRecoil);
   const router = useRouter();
   const onChange = useCallback(
     (e) => setLoginUser({...loginUser, [e.target.name]: e.target.value}),
@@ -27,10 +27,7 @@ export default function Login() {
         e.preventDefault();
         setLoading(true);
         const data = await postData("http://localhost:5000/api/auth/login", loginUser);
-        if (data.user) {
-          setUser(data.user);
-          setUserRecoil(data.user);
-        }
+        if (data.user) setUser(data.user);
         router.push("/dashboard", null, {shallow: true});
         setLoading(false);
       } catch (error) {
@@ -38,7 +35,7 @@ export default function Login() {
         toast.error(error.message);
       }
     },
-    [loginUser, router, setUserRecoil],
+    [loginUser, router, setUser],
   );
 
   useEffect(() => {

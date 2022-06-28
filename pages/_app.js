@@ -9,7 +9,8 @@ import {ToastContainer} from "material-react-toastify";
 
 import "material-react-toastify/dist/ReactToastify.css";
 import "../styles/main.scss";
-import MiddleApp from "@Components/MiddleApp";
+import dynamic from "next/dynamic";
+const MiddleApp = dynamic(() => import("@Components/MiddleApp"), {ssr: false});
 
 function createEmotionCache() {
   return createCache({key: "css", prepend: true});

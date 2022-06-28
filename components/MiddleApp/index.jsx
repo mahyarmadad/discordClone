@@ -2,7 +2,7 @@ import {userRecoil} from "@recoil/user";
 import LoadingScreen from "@Screen/LoadingScreen";
 import {useSocket} from "hook/socketServer";
 import {useRouter} from "next/router";
-import {useMemo} from "react";
+import {useEffect, useMemo} from "react";
 import {useRecoilValue} from "recoil";
 
 const exclusions = ["/login", "/signup", "/forgotPassword", "/choosePassword", "/verifySuccess"];
@@ -16,18 +16,14 @@ const AuthArea = ({children, ...props}) => {
   const user = useRecoilValue(userRecoil);
   useSocket();
 
-  if (redirect && !user) {
-    router.replace("/login");
-    return <LoadingScreen title="Authenticating..." />;
-  } else return children;
+  useEffect(() => {
+    if (!user && redirect) router.replace("/login");
+  }, [redirect, user, router]);
+
+  if (redirect && !user) return <LoadingScreen title="Authenticating..." />;
+  else return children;
 };
 
 export default function MiddleApp({children, ...props}) {
   return <AuthArea {...props}>{children}</AuthArea>;
-}
-
-export async function getServerSideProps() {
-  const res = await fetch(`http://localhost:5000/api/auth/`);
-  const data = await res.json();
-  return {props: {data}};
 }
