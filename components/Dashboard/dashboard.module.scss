@@ -1,12 +1,22 @@
+@import "/styles/variables.scss";
+
 .sidebar {
-  background: #677387;
+  background: $side1;
   padding: 8px;
 }
-.friendsList {
-  background: #1f4287;
+.friendsSide {
+  background: $side2;
   padding: 8px;
 }
 .messenger {
-  background: #278ea5;
+  background: $side3;
   flex-grow: 1;
+}
+.friendsList {
+  height: calc(100vh - 300px);
+  overflow: auto;
+}
+.inviteList {
+  height: 300px;
+  overflow: auto;
 }

@@ -1,9 +1,9 @@
-import {loggingInRecoil, userRecoil} from "@recoil/user";
+import {userRecoil} from "@recoil/user";
 import LoadingScreen from "@Screen/LoadingScreen";
-import {useAuth} from "hook/auth";
+import {useSocket} from "hook/socketServer";
 import {useRouter} from "next/router";
 import {useMemo} from "react";
-import {useRecoilValue, useSetRecoilState} from "recoil";
+import {useRecoilValue} from "recoil";
 
 const exclusions = ["/login", "/signup", "/forgotPassword", "/choosePassword", "/verifySuccess"];
 
@@ -13,13 +13,13 @@ const AuthArea = ({children, ...props}) => {
     () => !exclusions.some((t) => router.pathname.trim().toLowerCase().startsWith(t.toLowerCase())),
     [router.pathname],
   );
-  const isLogging = useRecoilValue(loggingInRecoil);
-  const setUser = useSetRecoilState(userRecoil);
+  const user = useRecoilValue(userRecoil);
+  useSocket();
 
-  const user = useAuth(redirect);
-  if (user) setUser(user);
-  if (isLogging || (redirect && !user)) return <LoadingScreen title="Authenticating..." />;
-  else return children;
+  if (redirect && !user) {
+    router.replace("/login");
+    return <LoadingScreen title="Authenticating..." />;
+  } else return children;
 };
 
 export default function MiddleApp({children, ...props}) {

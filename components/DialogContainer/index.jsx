@@ -13,12 +13,14 @@ export default function DialogContainer({children, zIndex = 1000, title, onClose
     <Dialog TransitionComponent={Transition} keepMounted fullWidth {...props}>
       <div className="flex-column full-height medium-padding">
         <div className="flex-row">
-          <Typography className={`flex-grow`}>{title}</Typography>
+          <Typography variant="h5" className={`flex-grow`}>
+            {title}
+          </Typography>
           <IconButton onClick={onCloseClick}>
             <MdClose />
           </IconButton>
         </div>
-        <Divider className="small-margin-bottom" />
+        <Divider className="small-margin-top small-margin-bottom" />
         {children}
       </div>
     </Dialog>

@@ -21,9 +21,9 @@ export default function InviteFriend({open, setOpen}) {
         value={inviteEmail}
         onChange={(e) => setInviteEmail(e.target.value)}
         label="Email Adress"
-        className="small-margin-top"
+        className="medium-margin-top"
       />
-      <Divider className="medium-margin-top small-margin-bottom" />
+      <Divider className="medium-margin-top medium-margin-bottom" />
 
       <LoadingButton disabled={!inviteEmail} variant="contained" fullWidth>
         Send
