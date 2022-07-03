@@ -1,5 +1,5 @@
 import {PassLink} from "@Components/utils";
-import {postData} from "@functions/user";
+import {postData} from "@functions/request";
 import {LoadingButton} from "@mui/lab";
 import {IconButton, InputAdornment, TextField, Typography} from "@mui/material";
 import {userRecoil} from "@recoil/user";
@@ -37,7 +37,8 @@ export default function SignUp() {
         setLoading(true);
         let sendUser = {...newUser};
         delete sendUser.confirmPassword;
-        const data = await postData("http://localhost:5000/api/auth/register", sendUser);
+        const res = await postData("http://localhost:5000/api/auth/register", sendUser);
+        const data = await res.json();
         if (data.user) setUser(data.user);
         router.push("/dashboard", null, {shallow: true});
         setLoading(false);

@@ -1,5 +1,5 @@
 import {PassLink} from "@Components/utils";
-import {postData} from "@functions/user";
+import {postData} from "@functions/request";
 import {LoadingButton} from "@mui/lab";
 import {TextField, Typography} from "@mui/material";
 import {userRecoil} from "@recoil/user";
@@ -26,7 +26,8 @@ export default function Login() {
       try {
         e.preventDefault();
         setLoading(true);
-        const data = await postData("http://localhost:5000/api/auth/login", loginUser);
+        const res = await postData("http://localhost:5000/api/auth/login", loginUser);
+        const data = await res.json();
         if (data.user) setUser(data.user);
         router.push("/dashboard", null, {shallow: true});
         setLoading(false);
