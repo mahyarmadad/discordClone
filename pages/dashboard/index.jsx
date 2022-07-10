@@ -1,4 +1,4 @@
-import FriendsList from "@Components/Dashboard/FriendsSide/FriendsList";
+import FriendsSide from "@Components/Dashboard/FriendsSide";
 import Messenger from "@Components/Dashboard/Messenger";
 import Sidebar from "@Components/Dashboard/Sidebar";
 import Layout from "@Screen/Layout";
@@ -8,7 +8,7 @@ export default function Dashboard() {
   return (
     <Layout className={styles.container}>
       <Sidebar />
-      <FriendsList />
+      <FriendsSide />
       <Messenger />
     </Layout>
   );

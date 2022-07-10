@@ -5,17 +5,17 @@ const syncLocalStorageUser =
   ({setSelf, onSet}) => {
     const getUser = async (sessionToken) => {
       try {
+        const token = localStorage.getItem("token");
         const res = await fetch("http://localhost:5000/api/auth/", {
           method: "GET",
           headers: {
-            authorization: sessionToken,
+            authorization: sessionToken || token,
           },
         });
-        const data = await res.json();
-        if (data) setSelf(sessionToken);
+        if (res.status === 200) setSelf(sessionToken);
         else setSelf(null);
       } catch (error) {
-        console.log("error", error);
+        console.log("syncLocalStorageUser", error.message);
         setSelf(null);
       }
     };
@@ -23,20 +23,14 @@ const syncLocalStorageUser =
     const sessionToken = localStorage.getItem(key);
     if (sessionToken) getUser(sessionToken);
     else setSelf(null);
-
-    onSet((newValue, _, isReset) => {
-      if (isReset || !newValue) {
-        localStorage.removeItem(key);
-        localStorage.removeItem("user");
-      } else {
-        localStorage.setItem(key, newValue.token);
-        localStorage.setItem("user", JSON.stringify(newValue));
-      }
-    });
   };
 
 export const userRecoil = atom({
   key: "userRecoil",
   default: null,
   effects: [syncLocalStorageUser("token")],
+});
+export const onlineUsersRecoil = atom({
+  key: "onlineUsersRecoil",
+  default: [],
 });

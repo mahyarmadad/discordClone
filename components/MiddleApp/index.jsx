@@ -14,8 +14,8 @@ const AuthArea = ({children, ...props}) => {
     [router.pathname],
   );
   const user = useRecoilValue(userRecoil);
-  useSocket();
 
+  useSocket();
   useEffect(() => {
     if (!user && redirect) router.replace("/login");
   }, [redirect, user, router]);

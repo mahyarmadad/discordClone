@@ -6,7 +6,6 @@
 }
 .friendsSide {
   background: $side2;
-  padding: 8px;
 }
 .messenger {
   background: $side3;
@@ -19,5 +18,19 @@
 }
 .inviteList {
   height: 300px;
+  overflow: auto;
+}
+
+.messageDiv {
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 48px);
+  background-color: #212121;
+}
+.chatDiv {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 100px);
   overflow: auto;
 }

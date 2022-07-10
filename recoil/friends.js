@@ -1,6 +1,6 @@
 import {atom} from "recoil";
 
-const syncInviteUser = ({setSelf, onSet}) => {
+const syncUserFriends = ({setSelf, onSet}) => {
   const getInvites = async (sessionToken) => {
     try {
       const res = await fetch("http://localhost:5000/api/friend/invite/", {
@@ -26,7 +26,7 @@ const syncInviteUser = ({setSelf, onSet}) => {
   });
 };
 
-export const invitationRecoil = atom({
-  key: "invitationRecoil",
+export const friendsRecoil = atom({
+  key: "friendsRecoil",
   default: [],
 });

@@ -1,48 +1,51 @@
-import {Avatar, Button, List, ListItem, ListItemText, Typography} from "@mui/material";
-import {useState} from "react";
+import {
+  Avatar,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  Tooltip,
+  Typography,
+} from "@mui/material";
+import {activeChat} from "@recoil/chat";
+import {friendsRecoil} from "@recoil/friends";
+import {onlineUsersRecoil} from "@recoil/user";
+import {useCallback, useEffect, useMemo} from "react";
 import {MdFiberManualRecord} from "react-icons/md";
-import InvitationList from "./invitationList";
-import InviteFriend from "./InviteFriend";
+import {useRecoilValue, useSetRecoilState} from "recoil";
 import styles from "../dashboard.module.scss";
 
-const users = ["user1", "user2"];
 export default function FriendsList() {
-  const [open, setOpen] = useState(false);
+  const userFriends = useRecoilValue(friendsRecoil);
+  const onlineUsers = useRecoilValue(onlineUsersRecoil);
 
-  return (
-    <div className={styles.friendsSide}>
-      <Button variant="contained" fullWidth onClick={() => setOpen(true)}>
-        Add Friends
-      </Button>
-      <Typography
-        variant="subtitle2"
-        align="center"
-        color="textSecondary"
-        className="small-margin-top large-padding-right large-padding-left">
-        Private Messages
+  const setChat = useSetRecoilState(activeChat);
+
+  const isOnline = useCallback(
+    (id) => {
+      let ison = onlineUsers.find((item) => item.userId === id);
+      if (ison) return true;
+      else false;
+    },
+    [onlineUsers],
+  );
+  return userFriends?.length ? (
+    <List className={styles.friendsList}>
+      {userFriends.map((friend) => (
+        <ListItemButton key={friend._id} onClick={() => setChat(friend)}>
+          <Avatar sx={{width: 24, height: 24}} className="small-margin-right" />
+          <Tooltip title={friend.email}>
+            <ListItemText primary={friend.username} />
+          </Tooltip>
+          {isOnline(friend._id) ? <MdFiberManualRecord color="#3ba55d" /> : null}
+        </ListItemButton>
+      ))}
+    </List>
+  ) : (
+    <div className={`${styles.friendsList} text-center`}>
+      <Typography variant="caption" color="textSecondary">
+        No Friends
       </Typography>
-
-      <List className={styles.friendsList}>
-        {users.map((user) => (
-          <ListItem key={user} disableGutters>
-            <Avatar sx={{width: 24, height: 24}} className="small-margin-right" />
-            <ListItemText primary={user} />
-            <MdFiberManualRecord color="#3ba55d" />
-          </ListItem>
-        ))}
-      </List>
-
-      <Typography
-        variant="subtitle2"
-        align="center"
-        color="textSecondary"
-        className="small-margin-top large-padding-right large-padding-left">
-        Invitations
-      </Typography>
-
-      <InvitationList />
-
-      <InviteFriend open={open} setOpen={setOpen} />
     </div>
   );
 }

@@ -2,7 +2,7 @@ import {AppBar, IconButton, Menu, MenuItem, Toolbar, Typography} from "@mui/mate
 import {useState} from "react";
 import {MdMoreVert, MdVideoCameraFront} from "react-icons/md";
 
-export default function Navbar() {
+export default function Navbar({title}) {
   const [openMenu, setOpenMenu] = useState(null);
   return (
     <AppBar position="static">
@@ -11,7 +11,7 @@ export default function Navbar() {
           <MdMoreVert />
         </IconButton>
         <Typography variant="h6" color="inherit" component="div">
-          Photos
+          {title}
         </Typography>
       </Toolbar>
 
