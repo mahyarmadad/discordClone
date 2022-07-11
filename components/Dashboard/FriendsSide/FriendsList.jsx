@@ -21,23 +21,15 @@ export default function FriendsList() {
 
   const setChat = useSetRecoilState(activeChat);
 
-  const isOnline = useCallback(
-    (id) => {
-      let ison = onlineUsers.find((item) => item.userId === id);
-      if (ison) return true;
-      else false;
-    },
-    [onlineUsers],
-  );
   return userFriends?.length ? (
     <List className={styles.friendsList}>
       {userFriends.map((friend) => (
-        <ListItemButton key={friend._id} onClick={() => setChat(friend)}>
+        <ListItemButton key={friend.id} onClick={() => setChat(friend)}>
           <Avatar sx={{width: 24, height: 24}} className="small-margin-right" />
           <Tooltip title={friend.email}>
             <ListItemText primary={friend.username} />
           </Tooltip>
-          {isOnline(friend._id) ? <MdFiberManualRecord color="#3ba55d" /> : null}
+          {onlineUsers[friend._id] ? <MdFiberManualRecord color="#3ba55d" /> : null}
         </ListItemButton>
       ))}
     </List>

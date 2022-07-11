@@ -1,7 +1,8 @@
 import {IconButton, InputAdornment, TextField, Typography} from "@mui/material";
 import {activeChat} from "@recoil/chat";
-import {SendMessage} from "hook/socketServer";
+import {GetMessage, SendMessage} from "hook/socketServer";
 import {useCallback} from "react";
+import {useEffect} from "react";
 import {useState} from "react";
 import {MdSend} from "react-icons/md";
 import {useRecoilValue} from "recoil";
@@ -15,6 +16,10 @@ export default function Messenger() {
     SendMessage(chatFriend.id, message);
     setMessage("");
   }, [chatFriend, message]);
+
+  useEffect(() => {
+    if (chatFriend) GetMessage(chatFriend.id);
+  }, [chatFriend]);
 
   return (
     <div className={`${styles.messenger}`}>
