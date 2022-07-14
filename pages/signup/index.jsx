@@ -39,7 +39,11 @@ export default function SignUp() {
         delete sendUser.confirmPassword;
         const res = await postData("http://localhost:5000/api/auth/register", sendUser);
         const data = await res.json();
-        if (data.user) setUser(data.user);
+        if (data.user) {
+          setUser(data.user);
+          localStorage.setItem("user", JSON.stringify(data.user));
+          localStorage.setItem("token", data.user.token);
+        }
         router.push("/dashboard", null, {shallow: true});
         setLoading(false);
       } catch (error) {

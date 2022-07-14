@@ -1,3 +1,4 @@
+import {chatHistoryRecoil} from "@recoil/chat";
 import {friendsRecoil} from "@recoil/friends";
 import {invitationRecoil} from "@recoil/invite";
 import {onlineUsersRecoil, userRecoil} from "@recoil/user";
@@ -11,6 +12,8 @@ export const useSocket = () => {
   const setInvitation = useSetRecoilState(invitationRecoil);
   const setFriends = useSetRecoilState(friendsRecoil);
   const setOnlineUsers = useSetRecoilState(onlineUsersRecoil);
+  const setChatHistory = useSetRecoilState(chatHistoryRecoil);
+
   const user = useRecoilValue(userRecoil);
 
   useEffect(() => {
@@ -35,23 +38,22 @@ export const useSocket = () => {
     });
 
     socket.on("chat-history", (data) => {
-      console.log("chat-history", data);
+      setChatHistory(data);
     });
 
     socket.on("disconnect", () => {
       console.log("user disconnected");
     });
-  }, [setFriends, setInvitation, setOnlineUsers, user]);
+  }, [setChatHistory, setFriends, setInvitation, setOnlineUsers, user]);
   return () => {
     socket.disconnect();
+    socketRef = null;
   };
 };
 
 export const SendMessage = (receiverId, message) => {
-  if (!socketRef) return;
-  socketRef.emit("sendMessage", {receiverId, message});
+  socketRef?.emit("sendMessage", {receiverId, message});
 };
 export const GetMessage = (receiverId) => {
-  if (!socketRef) return;
-  socketRef.emit("chat-history", {receiverId});
+  socketRef?.emit("chat-history", {receiverId});
 };

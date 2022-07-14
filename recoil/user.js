@@ -12,7 +12,7 @@ const syncLocalStorageUser =
             authorization: sessionToken || token,
           },
         });
-        if (res.status === 200) setSelf(sessionToken);
+        if (res.status === 200) setSelf(await res.json());
         else setSelf(null);
       } catch (error) {
         console.log("syncLocalStorageUser", error.message);
