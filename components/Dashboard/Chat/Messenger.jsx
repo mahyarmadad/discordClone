@@ -2,7 +2,7 @@ import {IconButton, InputAdornment, TextField, Typography} from "@mui/material";
 import {activeChat, chatHistoryRecoil} from "@recoil/chat";
 import {userRecoil} from "@recoil/user";
 import LoadingScreen from "@Screen/LoadingScreen";
-import {GetMessage, SendMessage} from "hook/socketServer";
+import {getMessage, sendMessage} from "hook/socketServer";
 import {Fragment, useCallback} from "react";
 import {useEffect} from "react";
 import {useState} from "react";
@@ -20,12 +20,12 @@ export default function Messenger() {
   const [loading, setLoading] = useState(true);
 
   const onSendClick = useCallback(() => {
-    SendMessage(chatFriend.id, message);
+    sendMessage(chatFriend.id, message);
     setMessage("");
   }, [chatFriend, message]);
 
   useEffect(() => {
-    if (chatFriend) GetMessage(chatFriend.id);
+    if (chatFriend) getMessage(chatFriend.id);
   }, [chatFriend]);
 
   useEffect(() => {

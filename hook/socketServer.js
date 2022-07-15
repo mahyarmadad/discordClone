@@ -1,6 +1,7 @@
 import {chatHistoryRecoil} from "@recoil/chat";
 import {friendsRecoil} from "@recoil/friends";
 import {invitationRecoil} from "@recoil/invite";
+import {activeRoomsRecoil, roomDetailRecoil} from "@recoil/room";
 import {onlineUsersRecoil, userRecoil} from "@recoil/user";
 import {useEffect} from "react";
 import {useRecoilValue, useSetRecoilState} from "recoil";
@@ -13,6 +14,8 @@ export const useSocket = () => {
   const setFriends = useSetRecoilState(friendsRecoil);
   const setOnlineUsers = useSetRecoilState(onlineUsersRecoil);
   const setChatHistory = useSetRecoilState(chatHistoryRecoil);
+  const setRoomDetail = useSetRecoilState(roomDetailRecoil);
+  const setActiveRooms = useSetRecoilState(activeRoomsRecoil);
 
   const user = useRecoilValue(userRecoil);
 
@@ -40,20 +43,43 @@ export const useSocket = () => {
     socket.on("chat-history", (data) => {
       setChatHistory(data);
     });
+    socket.on("room-create", (data) => {
+      setRoomDetail(data);
+    });
+    socket.on("active-Rooms", (data) => {
+      setActiveRooms(data);
+    });
 
     socket.on("disconnect", () => {
       console.log("user disconnected");
     });
-  }, [setChatHistory, setFriends, setInvitation, setOnlineUsers, user]);
+  }, [
+    setActiveRooms,
+    setChatHistory,
+    setFriends,
+    setInvitation,
+    setOnlineUsers,
+    setRoomDetail,
+    user,
+  ]);
   return () => {
     socket.disconnect();
     socketRef = null;
   };
 };
 
-export const SendMessage = (receiverId, message) => {
+export const sendMessage = (receiverId, message) => {
   socketRef?.emit("sendMessage", {receiverId, message});
 };
-export const GetMessage = (receiverId) => {
+export const getMessage = (receiverId) => {
   socketRef?.emit("chat-history", {receiverId});
+};
+export const createRoom = () => {
+  socketRef?.emit("room-create");
+};
+export const joinRoom = (data) => {
+  socketRef?.emit("room-join", data);
+};
+export const leaveRoom = (data) => {
+  socketRef?.emit("room-leave", data);
 };

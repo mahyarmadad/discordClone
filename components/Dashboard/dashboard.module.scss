@@ -3,6 +3,9 @@
 .sidebar {
   background: $side1;
   padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 .friendsSide {
   background: $side2;
@@ -33,4 +36,8 @@
   flex-direction: column;
   height: calc(100vh - 100px);
   overflow: auto;
+}
+
+.iconBtn.iconBtn {
+  min-width: auto;
 }
