@@ -11,3 +11,12 @@
   bottom: 0;
   right: 0;
 }
+.videosContainer {
+  flex-grow: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.video {
+  width: 100%;
+  height: 100%;
+}

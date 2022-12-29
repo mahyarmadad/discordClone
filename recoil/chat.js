@@ -8,3 +8,7 @@ export const chatHistoryRecoil = atom({
   key: "chatHistoryRecoil",
   default: null,
 });
+export const userStreamRecoil = atom({
+  key: "userStreamRecoil",
+  default: null,
+});

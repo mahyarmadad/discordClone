@@ -8,3 +8,7 @@ export const activeRoomsRecoil = atom({
   key: "activeRoomsRecoil",
   default: [],
 });
+export const remoteStreamsRecoil = atom({
+  key: "remoteStreamsRecoil",
+  default: [],
+});

@@ -1,4 +1,6 @@
+import {mediaHandel} from "@functions/mediaHandel";
 import {Button, Tooltip} from "@mui/material";
+import {userStreamRecoil} from "@recoil/chat";
 import {friendsRecoil} from "@recoil/friends";
 import {activeRoomsRecoil, roomDetailRecoil} from "@recoil/room";
 import {createRoom, joinRoom} from "hook/socketServer";
@@ -11,6 +13,7 @@ export default function Sidebar() {
   const activeRooms = useRecoilValue(activeRoomsRecoil);
   const friends = useRecoilValue(friendsRecoil);
   const setRoomDetail = useSetRecoilState(roomDetailRecoil);
+  const setStream = useSetRecoilState(userStreamRecoil);
 
   const showRooms = useMemo(() => {
     let rooms = [];
@@ -28,11 +31,19 @@ export default function Sidebar() {
 
   const onJoinClick = useCallback(
     (room) => {
-      joinRoom(room);
-      setRoomDetail(room);
+      mediaHandel(setStream, () => {
+        joinRoom(room);
+        setRoomDetail(room);
+      });
     },
-    [setRoomDetail],
+    [setRoomDetail, setStream],
   );
+
+  const onCreateClick = useCallback(() => {
+    mediaHandel(setStream, () => {
+      createRoom();
+    });
+  }, [setStream]);
 
   return (
     <div className={styles.sidebar}>
@@ -55,7 +66,7 @@ export default function Sidebar() {
           color="primary"
           variant="contained"
           className={styles.iconBtn}
-          onClick={() => createRoom()}>
+          onClick={onCreateClick}>
           <MdAdd />
         </Button>
       </Tooltip>
